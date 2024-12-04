@@ -2,6 +2,8 @@ services:
   db:
     image: mariadb:10.11
     container_name: librenms-db
+    env_file:
+      - .env
     command:
       - mysqld
       - --innodb-file-per-table=1
@@ -26,6 +28,8 @@ services:
     image: librenms/librenms:latest
     container_name: librenms
     hostname: librenms
+    env_file:
+      - .env
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -60,6 +64,8 @@ services:
     image: librenms/librenms:latest
     container_name: librenms-dispatcher
     hostname: librenms-dispatcher
+    env_file:
+      - .env
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -95,6 +101,8 @@ services:
     image: librenms/librenms:latest
     container_name: librenms-syslogng
     hostname: librenms-syslogng
+    env_file:
+      - .env
     cap_add:
       - NET_ADMIN
       - NET_RAW
