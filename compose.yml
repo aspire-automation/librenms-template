@@ -1,8 +1,8 @@
 services:
   librenmsdb:
     image: mariadb:10.11
-    container_name: librenms-db
-    hostname: librenms-db
+    container_name: librenmsdb
+    hostname: librenmsdb
     env_file:
       - .env
     command:
@@ -13,6 +13,8 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./db:/var/lib/mysql
+    ports:
+      - "0.0.0.0:3306:3306"
     environment:
       - TZ=Europe/London
       - MYSQL_DATABASE=${DB_NAME}
