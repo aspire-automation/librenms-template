@@ -40,7 +40,7 @@ services:
     volumes:
       - ./librenms:/data
     depends_on:
-      - db
+      - librenms-db
       - redis
     environment:
       - TZ=Europe/London
@@ -72,7 +72,7 @@ services:
       - NET_ADMIN
       - NET_RAW
     depends_on:
-      - db
+      - librenms-db
       - librenms
       - redis
     volumes:
@@ -113,7 +113,7 @@ services:
       - 514:514/udp
     depends_on:
       - librenms
-      - db
+      - librenms-db
     volumes:
       - ./librenms:/data
     environment:
