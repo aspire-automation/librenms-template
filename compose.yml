@@ -1,0 +1,143 @@
+services:
+  db:
+    image: mariadb:10.11
+    container_name: librenms-db
+    command:
+      - mysqld
+      - --innodb-file-per-table=1
+      - --lower-case-table-names=0
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - TZ=Europe/London
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    restart: always
+  redis:
+    image: redis:5.0-alpine
+    container_name: librenms-redis
+    environment:
+      - TZ=Europe/London
+    restart: always
+  librenms:
+    image: librenms/librenms:latest
+    container_name: librenms
+    hostname: librenms
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    ports:
+      - 8000:8000/tcp
+    volumes:
+      - ./librenms:/data
+    depends_on:
+      - db
+      - redis
+    environment:
+      - TZ=Europe/London
+      - PUID=1000
+      - PGID=1000
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_TIMEOUT=60
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - MEMORY_LIMIT=8192M
+      - UPLOAD_MAX_SIZE=16M
+      - OPCACHE_MEM_SIZE=256
+      - REAL_IP_FROM=0.0.0.0/32
+      - REAL_IP_HEADER=X-Forwarded-For
+      - LOG_IP_VAR=remote_addr
+      - LIBRENMS_WEATHERMAP=false
+    restart: always
+  dispatcher:
+    image: librenms/librenms:latest
+    container_name: librenms-dispatcher
+    hostname: librenms-dispatcher
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    depends_on:
+      - db
+      - librenms
+      - redis
+    volumes:
+      - ./librenms:/data
+    environment:
+      - TZ=Europe/London
+      - PUID=1000
+      - PGID=1000
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_TIMEOUT=60
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - MEMORY_LIMIT=8192M
+      - UPLOAD_MAX_SIZE=16M
+      - OPCACHE_MEM_SIZE=256
+      - REAL_IP_FROM=0.0.0.0/32
+      - REAL_IP_HEADER=X-Forwarded-For
+      - LOG_IP_VAR=remote_addr
+      - LIBRENMS_WEATHERMAP=false
+      - DISPATCHER_NODE_ID=dispatcher1
+      - SIDECAR_DISPATCHER=1
+    restart: always
+  syslogng:
+    image: librenms/librenms:latest
+    container_name: librenms-syslogng
+    hostname: librenms-syslogng
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    ports:
+      - 514:514/tcp
+      - 514:514/udp
+    depends_on:
+      - librenms
+      - db
+    volumes:
+      - ./librenms:/data
+    environment:
+      - TZ=Europe/London
+      - PUID=1000
+      - PGID=1000
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_TIMEOUT=60
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - SIDECAR_SYSLOGNG=1
+    restart: always
+  rrdcached:
+    image: crazymax/rrdcached
+    container_name: librenms_rrdcached
+    depends_on:
+      - redis
+      - librenms
+    volumes:
+      - ./librenms/rrd:/data/db
+      - ./librenms/journal:/data/journal
+    ports:
+      - 42217:42217/tcp
+    environment:
+      - "TZ=Europe/London"
+      - "PUID=1000"
+      - "PGID=1000"
+      - "LOG_LEVEL=LOG_INFO"
+      - "WRITE_TIMEOUT=1800"
+      - "WRITE_JITTER=1800"
+      - "WRITE_THREADS=4"
+      - "FLUSH_DEAD_DATA_INTERVAL=3600"
+    restart: always
