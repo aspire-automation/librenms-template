@@ -14,7 +14,7 @@ services:
       - TZ=Europe/London
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
     restart: always
   redis:
     image: redis:5.0-alpine
