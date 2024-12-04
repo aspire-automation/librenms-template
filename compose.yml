@@ -13,8 +13,6 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./db:/var/lib/mysql
-    ports:
-      - "0.0.0.0:3306:3306"
     environment:
       - TZ=Europe/London
       - MYSQL_DATABASE=${DB_NAME}
