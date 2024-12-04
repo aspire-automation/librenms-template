@@ -1,5 +1,5 @@
 services:
-  db:
+  librenms-db:
     image: mariadb:10.11
     container_name: librenms-db
     hostname: librenms-db
