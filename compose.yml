@@ -35,12 +35,6 @@ services:
     image: librenms/librenms:latest
     container_name: librenms
     hostname: librenms
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        echo "APP_KEY=${APP_KEY}" > /data/.env && \
-      - exec "/init"
     env_file:
       - .env
     cap_add:
