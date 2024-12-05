@@ -51,6 +51,8 @@ services:
       - TZ=Europe/London
       - PUID=1000
       - PGID=1000
+      - CACHE_DRIVER=redis
+      - SESSION_DRIVER=redis
       - APP_KEY=${APP_KEY}
       - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
@@ -87,6 +89,8 @@ services:
       - TZ=Europe/London
       - PUID=1000
       - PGID=1000
+      - CACHE_DRIVER=redis
+      - SESSION_DRIVER=redis
       - APP_KEY=${APP_KEY}
       - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
