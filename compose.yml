@@ -39,7 +39,7 @@ services:
       - /bin/sh
       - -c
       - |
-        echo "APP_KEY=${APP_KEY}" > /data/.env
+        echo "APP_KEY=${APP_KEY}" > /data/.env && \
       - /init
     env_file:
       - .env
