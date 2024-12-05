@@ -40,7 +40,7 @@ services:
       - -c
       - |
         echo "APP_KEY=${APP_KEY}" > /data/.env && \
-      - exec /init
+      - exec "/init"
     env_file:
       - .env
     cap_add:
