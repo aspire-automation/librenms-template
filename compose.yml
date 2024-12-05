@@ -3,6 +3,8 @@ services:
     image: mariadb:10.11
     container_name: librenmsdb
     hostname: librenmsdb
+    labels: 
+      - librenmsdb
     env_file:
       - .env
     command:
