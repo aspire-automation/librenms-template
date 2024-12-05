@@ -3,8 +3,6 @@ services:
     image: mariadb:10.11
     container_name: librenmsdb
     hostname: librenmsdb
-    ports: 
-      - 3306:3306/tcp
     env_file:
       - .env
     command:
