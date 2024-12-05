@@ -48,7 +48,7 @@ services:
       - TZ=Europe/London
       - PUID=1000
       - PGID=1000
-      - DB_HOST=db
+      - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
@@ -83,7 +83,7 @@ services:
       - TZ=Europe/London
       - PUID=1000
       - PGID=1000
-      - DB_HOST=db
+      - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
