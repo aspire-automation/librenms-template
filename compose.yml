@@ -51,6 +51,7 @@ services:
       - TZ=Europe/London
       - PUID=1000
       - PGID=1000
+      - APP_KEY=${APP_KEY}
       - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -86,6 +87,7 @@ services:
       - TZ=Europe/London
       - PUID=1000
       - PGID=1000
+      - APP_KEY=${APP_KEY}
       - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -125,6 +127,7 @@ services:
       - TZ=Europe/London
       - PUID=1000
       - PGID=1000
+      - APP_KEY=${APP_KEY}
       - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
