@@ -29,7 +29,7 @@ services:
     image: redis:5.0-alpine
     container_name: librenms-redis
     environment:
-      - TZ=Europe/London
+      - "TZ=Europe/London"
     restart: always
   librenms:
     image: librenms/librenms:latest
@@ -59,7 +59,7 @@ services:
       - "DB_USER=${DB_USER}"
       - "DB_PASSWORD=${DB_PASSWORD}"
       - "DB_TIMEOUT=60"
-      - "REDIS_HOST=redis2
+      - "REDIS_HOST=redis"
       - "REDIS_PORT=6379"
       - "REDIS_DB=0"
       - "MEMORY_LIMIT=8192M"
@@ -97,7 +97,7 @@ services:
       - "DB_USER=${DB_USER}"
       - "DB_PASSWORD=${DB_PASSWORD}"
       - "DB_TIMEOUT=60"
-      - "REDIS_HOST=redis2
+      - "REDIS_HOST=redis"
       - "REDIS_PORT=6379"
       - "REDIS_DB=0"
       - "MEMORY_LIMIT=8192M"
