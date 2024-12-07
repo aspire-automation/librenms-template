@@ -72,8 +72,8 @@ services:
     restart: always
   dispatcher:
     image: librenms/librenms:latest
-    container_name: librenms-dispatcher
-    hostname: librenms-dispatcher
+    container_name: dispatcher
+    hostname: dispatcher
     env_file:
       - .env
     cap_add:
@@ -144,7 +144,7 @@ services:
     restart: always
   rrdcached:
     image: crazymax/rrdcached
-    container_name: librenms_rrdcached
+    container_name: rrdcached
     depends_on:
       - redis
       - librenms
