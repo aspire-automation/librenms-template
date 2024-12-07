@@ -47,6 +47,7 @@ services:
     depends_on:
       - librenmsdb
       - redis
+      - rrdcached
     environment:
       - "TZ=Europe/London"
       - "PUID=1000"
@@ -83,6 +84,7 @@ services:
       - librenmsdb
       - librenms
       - redis
+      - rrdcached
     volumes:
       - ./librenms:/data
     environment:
@@ -125,6 +127,7 @@ services:
     depends_on:
       - librenms
       - librenmsdb
+      - rrdcached
     volumes:
       - ./librenms:/data
     environment:
@@ -147,7 +150,6 @@ services:
     container_name: rrdcached
     depends_on:
       - redis
-      - librenms
     volumes:
       - ./librenms/rrd:/data/db
       - ./librenms/journal:/data/journal
