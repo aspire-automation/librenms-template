@@ -1,4 +1,4 @@
-services:
+  GNU nano 6.2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     librenms/compose.yml                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               services:
   librenmsdb:
     image: mariadb:10.11
     container_name: librenmsdb
@@ -40,8 +40,8 @@ services:
     cap_add:
       - NET_ADMIN
       - NET_RAW
-    ports:
-      - 8000:8000/tcp
+#    ports:
+#      - 8000:8000/tcp
     volumes:
       - ./librenms:/data
     depends_on:
@@ -70,6 +70,12 @@ services:
       - "REAL_IP_HEADER=X-Forwarded-For"
       - "LOG_IP_VAR=remote_addr"
       - "LIBRENMS_WEATHERMAP=false"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.librenms.rule=Host(`${HOST_URL}`)"
+      - "traefik.http.services.librenms.loadbalancer.server.port=8000"
+      - "traefik.http.routers.librenms.entrypoints=websecure"  # HTTPS entrypoint
+      - "traefik.http.routers.librenms.tls=true"
     restart: always
   dispatcher:
     image: librenms/librenms:latest
@@ -164,4 +170,23 @@ services:
       - "WRITE_JITTER=1800"
       - "WRITE_THREADS=4"
       - "FLUSH_DEAD_DATA_INTERVAL=3600"
+    restart: always
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    command:
+      - "--entrypoints.web.address=:80"  # HTTP entrypoint
+      - "--entrypoints.websecure.address=:443"  # HTTPS entrypoint
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--providers.file.filename=/dynamic/dynamic.yml"  # Load dynamic configuration
+      - "--providers.docker=true"
+      - "--api.insecure=false"  # Optional: Enable Traefik's API dashboard (don't expose it publicly)
+    ports:
+      - "80:80/tcp"
+      - "443:443/tcp"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./.certs:/certs  # Path to self-signed certificates
+      - ./selfsigned.yml:/dynamic/dynamic.yml
     restart: always
