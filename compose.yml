@@ -54,6 +54,7 @@ services:
       - "PGID=1000"
       - "CACHE_DRIVER=redis"
       - "SESSION_DRIVER=redis"
+      - "SESSION_SECURE_COOKIE=true"
       - "APP_KEY=${APP_KEY}"
       - "DB_HOST=${DB_HOST}"
       - "DB_NAME=${DB_NAME}"
