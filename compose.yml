@@ -63,6 +63,8 @@ services:
       - "DB_TIMEOUT=60"
       - "REDIS_HOST=redis"
       - "REDIS_PORT=6379"
+      - "RRDCACHED_HOST=${RRDCACHED_HOST}"
+      - "RRDCACHED_PORT=42217
       - "REDIS_DB=0"
       - "MEMORY_LIMIT=8192M"
       - "UPLOAD_MAX_SIZE=16M"
@@ -108,6 +110,8 @@ services:
       - "DB_TIMEOUT=60"
       - "REDIS_HOST=redis"
       - "REDIS_PORT=6379"
+      - "RRDCACHED_HOST=${RRDCACHED_HOST}"
+      - "RRDCACHED_PORT=42217
       - "REDIS_DB=0"
       - "MEMORY_LIMIT=8192M"
       - "UPLOAD_MAX_SIZE=16M"
